@@ -1,0 +1,22 @@
+import React from 'react'
+import { firebase } from '../firebase'
+import { Navigate } from 'react-router-dom'
+
+export const AuthGuard = (Component) => {
+    class AuthHoc extends React.Component {
+        authCheck = () => {
+            const user = firebase.auth().currentUser;
+            if (user) {
+                return <Component {...this.props} />
+            } else {
+                return <Navigate to='/' />
+            }
+        }
+        render() {
+            return this.authCheck();
+        }
+    }
+  return AuthHoc;
+}
+
+// export default AuthGuard
